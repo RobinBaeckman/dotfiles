@@ -1,0 +1,10 @@
+*~
+.DS_Store
+tags
+gems.tags
+EOT
+.env
+.htpasswd
+vendor
+/home/robin/workspace/brankas/ecebuana/api
+/home/robin/workspace/brankas/RBAC/robin/*

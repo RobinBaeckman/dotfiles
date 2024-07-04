@@ -1,0 +1,27 @@
+[user]
+	name = Robin Baeckman
+	email = robin.baeckman@brank.as
+[url "git@git.brankas.cloud:"]
+    insteadOf = https://gitea.brankas.cloud/
+[color]
+	ui = true
+[core]
+	editor = vim
+	excludesfile = /Users/robin/.gitignore_global
+;[url "ssh://git@github.com/brankas"]
+	;insteadOf = https://github.com/brankas
+;[url "git@github.com:"]
+   ;insteadOf = https://github.com/
+
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+;[commit]
+	;template = /Users/robin/commit-conventions.txt
+[http]
+	sslverify = false
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[url "ssh://git@github.com"]
+	insteadOf = https://github.com

@@ -1,0 +1,50 @@
+# error
+regexp=^\s*"error": (?!"rpc error:).*
+colours=red
+======
+# severity error
+regexp=^\s*"severity": "error"
+colours=red
+======
+regexp=^\s*"error:":.*
+colours=red
+======
+# file and line number (lcl)
+regexp="file": (?!"/src/vendor)"/src.*/.+go:\d+
+colours=bold green
+======
+# file and line number (stg petnet)
+regexp="file": "/root.*/.+go:\d+.*
+colours=bold green
+======
+# file and line number (stg rbac)
+regexp="source": "/root.*/.+go:\d+
+colours=bold green
+======
+# stacktrace file and line (lcl)
+regexp=\\n\\t/src/(?!vendor).*?.go:\d+
+colours=bold green
+======
+# stacktrace file and line (stg)
+regexp=\\n\\t/root.*?.go:\d+
+colours=bold green
+======
+# msg
+regexp=^\s*"msg": "(?!finished unary call).*
+colours=magenta
+======
+# message
+regexp="message":.*$
+colours=magenta
+======
+# func
+regexp=.*\"func": "brank.as.*
+colours=yellow
+======
+# request body
+regexp=.*\"request body\"
+colours=blue
+======
+# response body
+regexp=.*\"response body\"
+colours=blue

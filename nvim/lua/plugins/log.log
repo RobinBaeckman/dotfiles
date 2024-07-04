@@ -1,0 +1,8 @@
+{"time":"2024-07-08T11:09:23.381538+09:00","level":"WARN","msg":"No configuration file found, using defaults"}
+{"time":"2024-07-08T11:09:23.381648+09:00","level":"INFO","msg":"Logger initialized successfully"}
+{"time":"2024-07-08T11:09:23.385511+09:00","level":"INFO","msg":"Starting event handler goroutine"}
+{"time":"2024-07-08T11:09:23.385532+09:00","level":"INFO","msg":"Starting ReadFromStream goroutine"}
+{"time":"2024-07-08T11:47:31.859587+09:00","level":"INFO","msg":"Exiting event handler goroutine"}
+{"time":"2024-07-08T11:47:31.8597+09:00","level":"INFO","msg":"Context done in Run"}
+{"time":"2024-07-08T11:47:31.859737+09:00","level":"INFO","msg":"ReadFromStream: context canceled"}
+{"time":"2024-07-08T11:47:31.859754+09:00","level":"INFO","msg":"All goroutines finished"}

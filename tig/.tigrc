@@ -1,0 +1,98 @@
+#====================
+# generic
+#====================
+set diff-highlight = false
+
+# misc settings
+set ignore-case = true
+set line-graphics = utf-8
+set refresh-mode = auto
+bind generic D !git difftool --tool=vimdiff --no-prompt --trust-exit-code %(commit)^!
+
+# vim-like g binding, 'gp' for git grep
+bind generic g none
+bind generic gp view-grep
+bind generic gg move-first-line
+bind generic G move-last-line
+
+#====================
+# main view
+#====================
+set main-view = \
+    date:relative \
+    author:full \
+    id \
+    commit-title:graph=v2,refs=false
+
+# override graph toggling
+bind main G move-last-line
+bind main ` :toggle commit-title-graph
+bind generic F none
+bind generic <C-T> :toggle commit-title-refs
+
+# push
+bind main p none # override default pager binding
+bind main porg ?git push origin %(branch) -f
+bind main pstg ?git push upstream %(branch):staging-test -f
+bind main puat ?git push upstream %(branch):uat -f
+bind main pe2e ?git push upstream %(branch):endtoend-test -f
+bind main pmas ?git push upstream %(branch):master
+bind main pprd ?git push upstream %(branch):production -f
+
+# fetch
+bind main xmas ?git pull --rebase upstream master
+bind main xstg ?git pull --rebase upstream staging-test
+bind main xfr ?git fetch '%(prompt Which remote? )'
+
+# reset/revert/clean
+bind main uu ?git reset --soft HEAD^
+bind main uh ?git reset --hard HEAD^
+
+# branch
+bind main b none
+bind main bc @git checkout -b "%(prompt New branch from commit: )" %(commit)
+bind main bmas @git checkout -b "%(prompt New branch from upstream/master: )" master
+
+#====================
+# stage view
+#====================
+bind stage <C-J> :/^@@
+bind stage <C-K> :?^@@
+bind stage <Esc>j :/^diff --(git|cc)
+bind stage <Esc>k :?^diff --(git|cc)
+
+#====================
+# status view
+#====================
+bind status d ?>rm %(file)
+
+# stash
+bind status s ?>git stash
+
+bind status am !?git commit --amend
+bind status aa !?git add .
+
+#====================
+# refs view
+#====================
+bind refs C none
+bind refs c @git checkout %(ref)
+
+#====================
+# diff view
+#====================
+bind diff <C-N> :/^@@
+bind diff <C-P> :?^@@
+bind diff <Esc>j :/^diff --(git|cc)
+bind diff <Esc>k :?^diff --(git|cc)
+
+#====================
+# log view
+#====================
+bind log <C-N> :/^commit
+bind log <C-P> :?^commit
+
+#====================
+# color
+#====================
+color diff-chunk white magenta

@@ -1,0 +1,14 @@
+# hades
+Host hades
+ # Todo might switch to 192.168.2.110 make it the same each time
+ HostName 192.168.2.111
+ User robin
+ #ForwardX11 yes
+ #ForwardX11Trusted yes
+ IdentityFile ~/.ssh/hades
+ ServerAliveInterval 240
+
+# add ssh keys to ssh-agent on startup
+Host *
+   AddKeysToAgent yes
+   UseKeychain yes

@@ -1,0 +1,52 @@
+run:
+  timeout: 5m
+  tests: true
+  include:
+    - "**/*.go"
+
+issues:
+  exclude-dirs:
+    - "vendor"
+  exclude-use-default: false
+
+linters:
+  enable:
+    - dupl           # Tool for code clone detection
+    - errcheck       # Check for unchecked errors in Go code
+    - gocritic       # Provides diagnostics that check for bugs, performance and style issues
+    - gocyclo        # Computes and checks the cyclomatic complexity of functions
+    - gofmt          # Checks whether code was gofmt-ed
+    - gosec          # Inspects source code for security problems
+    - gosimple       # Linter for simplifying Go code
+    - govet          # Vet examines Go source code and reports suspicious constructs
+    - ineffassign    # Detects when assignments to existing variables are not used
+    - lll            # Reports long lines
+    - misspell       # Finds commonly misspelled English words
+    - nakedret       # Checks that functions with naked returns are not longer than a maximum size
+    - prealloc       # Finds slice declarations that could potentially be pre-allocated
+    - revive         # Drop-in replacement of golint
+    - staticcheck    # Static analysis checks
+    - unconvert      # Remove unnecessary type conversions
+    - unparam        # Reports unused function parameters
+    - unused         # Checks Go code for unused constants, variables, functions, and types
+
+linters-settings:
+  revive:
+    config: 
+      ignoreGeneratedHeader: true
+  lll:
+    line-length: 120
+  gosec:
+    excludes:
+      - G104 # Ignore errors that are returned from functions
+
+cache:
+  enable: true
+  dir: ~/.cache/golangci-lint
+
+output:
+  formats: colored-line-number
+
+modules:
+  download-modules: true
+  no-modules-download-mode: false
