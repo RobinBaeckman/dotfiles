@@ -18,6 +18,7 @@
         fzf
         git
         gnupg
+        go
         go-task
         golangci-lint
         gopls
