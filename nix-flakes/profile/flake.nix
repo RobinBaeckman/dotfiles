@@ -43,11 +43,10 @@
         zsh-autosuggestions
         zsh-completions
         zsh-syntax-highlighting
-        zsh-vi-mode
         nix-zsh-completions
         atuin
       ];
-      pathsToLink = [ "/share/man" "/share/doc" "/bin" "/lib" ];
+      pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" "/lib" ];
       extraOutputsToInstall = [ "man" "doc" ];
     };
   };

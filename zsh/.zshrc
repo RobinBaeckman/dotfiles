@@ -4,15 +4,17 @@ export PATH="$NIX_PROFILE/bin:$PATH"
 
 export TERM=xterm-256color
 
+# Load fzf key bindings and completion
 if [ -n "${commands[fzf-share]}" ]; then
   source "$(fzf-share)/key-bindings.zsh"
   source "$(fzf-share)/completion.zsh"
 fi
 
+# Initialize zoxide
+eval "$(zoxide init zsh)"
+
 # Initialize Atuin
 eval "$(atuin init zsh)"
-
-eval "$(zoxide init zsh)"
 
 # Start the SSH agent if not already running
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
@@ -22,28 +24,18 @@ fi
 # Add your SSH key to the SSH agent
 ssh-add ~/.config/ssh/id_rsa &>/dev/null
 
-# Plugin configs
-# zsh-vi-mode use jk for normal mode 
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
-
-if [ -f "/nix/store/0hiahxhfkb2ghg4swps7f5xff248awcf-zsh-autosuggestions-0.7.0/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-  source "/nix/store/0hiahxhfkb2ghg4swps7f5xff248awcf-zsh-autosuggestions-0.7.0/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# Source zsh-autosuggestions if available
+if [ -f "$HOME/.nix-profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+  source "$HOME/.nix-profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
-if [ -f "/nix/store/0hiahxhfkb2ghg4swps7f5xff248awcf-zsh-autosuggestions-0.7.0/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-  source "/nix/store/0hiahxhfkb2ghg4swps7f5xff248awcf-zsh-autosuggestions-0.7.0/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-fi
-
-if [ -f "/nix/store/wmapqzrfkmlbxlfsknnjw127y2nlgx0h-zsh-vi-mode-0.9.0/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]; then
-  source "/nix/store/wmapqzrfkmlbxlfsknnjw127y2nlgx0h-zsh-vi-mode-0.9.0/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
-fi
-
-if [ -f "/nix/store/mflzfgjwkaynii35yxpz16bd7kykimli-nixpkgs/nixpkgs/pkgs/shells/zsh/zsh-completions" ]; then
-  source "/nix/store/mflzfgjwkaynii35yxpz16bd7kykimli-nixpkgs/nixpkgs/pkgs/shells/zsh/zsh-completions"
+# Source zsh-completions if available
+if [ -f "$HOME/.nix-profile/share/zsh/site-functions/_zsh_completions" ]; then
+  source "$HOME/.nix-profile/share/zsh/site-functions/_zsh_completions"
 fi
 
 # Ensure Nix completion scripts are sourced
-NIX_COMPLETIONS="/nix/store/q8lnp4zwm64q23344p7vrr59jbssgc0k-nix-zsh-completions-unstable-2023-01-30/share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh"
+NIX_COMPLETIONS="$HOME/.nix-profile/share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh"
 NIX_COMPLETION_FUNC="/nix/var/nix/profiles/default/share/zsh/site-functions/_nix"
 
 # Source the Nix completions plugin if it exists
