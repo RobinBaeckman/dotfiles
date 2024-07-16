@@ -66,40 +66,15 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 alias dcu='docker-compose up -d --build'
 alias dcd='docker-compose down --remove-orphans'
 
-# Git
-alias gfu='git fetch upstream'
-alias gdm='git diff upstream/master..HEAD'
-alias grm='git pull --rebase upstream master'
-alias gc='git checkout'
-alias gcb='git checkout -b'
-alias gaa='git add .'
-alias gs='git status'
-alias gl='git log'
-alias gca='git commit --amend --no-edit'
-alias gh="sed -n '/# git/,/^$/p' ~/.bash_profile"
-alias gcm='git checkout master'
-alias gd='git diff'
-
 # Custom Aliases
-alias rv='z /Users/robin/.config/nvim/lua'
-alias ws='z ~/go-workspace'
-alias desk='z ~/Desktop'
-alias down='z ~/Downloads'
 alias todo='vim ~/todo.txt'
-alias pg='z ~/go-workspace/playground'
 alias fuck="mv ~/Library/Preferences/com.apple.symbolichotkeys.plist ~/Desktop/com.apple.symbolichotkeys.plist"
-alias bc='z ~/go-workspace/blockchain/'
-alias lv='z ~/go-workspace/logviewer'
 
 # Config entries
 alias tc='vim ~/.config/tmux/tmux.conf'
 alias rtc='tmux source ~/.config/tmux/tmux.conf'
-alias vc='vim ~/.config/nvim/lua/custom/mappings.lua'
-alias sc='vim ~/.config/ssh/config'
 alias zc="vim ~/.config/zsh/.zshrc"
 alias rzc="source ~/.config/zsh/.zshrc"
-alias wtc="vim ~/.config/wezterm/wezterm.lua"
-alias d="z ~/dotfiles"
 
 # Remaps
 alias vim='nvim'
