@@ -24,7 +24,6 @@
         gopls
         govulncheck
         graphviz
-        grc
         gnugrep
         jq
         lazydocker
@@ -35,7 +34,6 @@
         ripgrep
         starship
         stow
-        tig
         tmux
         tree
         zoxide

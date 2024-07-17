@@ -66,6 +66,12 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 alias dcu='docker-compose up -d --build'
 alias dcd='docker-compose down --remove-orphans'
 
+# Git
+alias gaa='git add .'
+alias gs='git status'
+alias gl='git log'
+alias gd='git diff'
+
 # Custom Aliases
 alias todo='vim ~/todo.txt'
 alias fuck="mv ~/Library/Preferences/com.apple.symbolichotkeys.plist ~/Desktop/com.apple.symbolichotkeys.plist"
