@@ -2,47 +2,53 @@
   description = "Global profile environment for utilities and development tools";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs }: {
-    defaultPackage.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.buildEnv {
+  outputs = { self, nixpkgs }:
+  let
+    pkgs = import nixpkgs { system = "aarch64-darwin"; };
+  in {
+    defaultPackage.aarch64-darwin = pkgs.buildEnv {
       name = "profile-env";
-      paths = with nixpkgs.legacyPackages.aarch64-darwin; [
-        bat
-        coreutils
-        delve
-        docker
-        docker-compose
-        eza 
-        fzf
-        git
-        gnupg
-        go
-        go-task
-        golangci-lint
-        gopls
-        govulncheck
-        graphviz
-        gnugrep
-        jq
-        lazydocker
-        lua-language-server
-        neovim
-        protobuf
-        python311Full
-        ripgrep
-        starship
-        stow
-        tmux
-        tree
-        zoxide
-        zsh
-        zsh-autosuggestions
-        zsh-completions
-        zsh-syntax-highlighting
-        nix-zsh-completions
-        atuin
+      paths = [
+        (pkgs.python311.withPackages(ps: with ps; [
+          mido
+          python-rtmidi
+        ]))
+        pkgs.bat
+        pkgs.coreutils
+        pkgs.delve
+        pkgs.docker
+        pkgs.docker-compose
+        pkgs.eza
+        pkgs.fzf
+        pkgs.git
+        pkgs.gnupg
+        pkgs.go
+        pkgs.go-task
+        pkgs.golangci-lint
+        pkgs.gopls
+        pkgs.govulncheck
+        pkgs.graphviz
+        pkgs.gnugrep
+        pkgs.jq
+        pkgs.lazydocker
+        pkgs.lua-language-server
+        pkgs.neovim
+        pkgs.protobuf
+        pkgs.ripgrep
+        pkgs.starship
+        pkgs.stow
+        pkgs.tmux
+        pkgs.tree
+        pkgs.zoxide
+        pkgs.zsh
+        pkgs.zsh-autosuggestions
+        pkgs.zsh-completions
+        pkgs.zsh-syntax-highlighting
+        pkgs.nix-zsh-completions
+        pkgs.atuin
       ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" "/lib" ];
       extraOutputsToInstall = [ "man" "doc" ];
