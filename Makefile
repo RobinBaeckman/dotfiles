@@ -1,45 +1,66 @@
-# Define variables for Nix flakes and stow
+# =============================================================================
+# 💡 Makefile – Enkelt gränssnitt för att hantera dotfiles och Nix-miljö
+#
+# Detta är din kommandopanel – kör "make help" för att se vad du kan göra.
+#
+# 🟢 Vanlig uppdatering efter lång paus:
+#    make update
+#
+# 🛠️ Ny dator / fresh setup:
+#    make full-setup
+# =============================================================================
+
+# === 🔧 Variabler ===
 FLAKE_PATH := ./nix-flakes/profile
 RESULT_PATH := $(FLAKE_PATH)/result
 STOW := stow
-STOW_DIR := $(shell pwd)
 STOWRC := .stowrc
 
-# Default target
+# === 🧭 Standardkommandot ===
 .DEFAULT_GOAL := help
 
-# Help target for displaying available commands
+# === 📋 Hjälpmeny ===
 .PHONY: help
 help:
-	@echo "Available targets:"
-	@echo "  make setup               - Set up the environment (link dotfiles and install Nix packages)"
-	@echo "  make link-dotfiles       - Link dotfiles to the appropriate locations using stow"
-	@echo "  make unlink-dotfiles     - Unlink dotfiles from their locations"
-	@echo "  make nix-profile-install - Build the flake and install the Nix profile"
-	@echo "  make help                - Display this help message"
+	@echo "📦 Available targets:"
+	@echo "  make full-setup           - 🛠️ Första setup på ny dator (Nix + dotfiles)"
+	@echo "  make update               - 🔄 Uppdatera alla verktyg (flake update + install)"
+	@echo "  make link-dotfiles        - 🔗 Symlänka dotfiles till ~/.config"
+	@echo "  make unlink-dotfiles      - ❌ Ta bort symlänkar"
+	@echo "  make nix-profile-install  - 📥 Bygg och installera Nix-paket från flake"
 
-# Target for setting up the environment (linking dotfiles and installing Nix packages)
-.PHONY: setup
-setup: link-dotfiles nix-profile-install
+# === 🛠️ Full ny setup (för ny dator) ===
+.PHONY: full-setup
+full-setup: link-dotfiles nix-profile-install
 
-# Target for linking dotfiles with stow
+# === 🔗 Symlänka dotfiles ===
 .PHONY: link-dotfiles
 link-dotfiles:
+	@echo "🔗 Symlänkar dotfiles till ~/.config ..."
 	$(STOW) -v --restow --target ~/.config .
 
-# Target for unlinking dotfiles (unstowing)
+# === ❌ Ta bort symlänkar ===
 .PHONY: unlink-dotfiles
 unlink-dotfiles:
+	@echo "❌ Tar bort symlänkar från ~/.config ..."
 	$(STOW) -v --delete --target ~/.config .
 
-# Target to build the flake and install the Nix profile
+# === 📥 Bygg och installera Nix-profile från flake ===
 .PHONY: nix-profile-install
 nix-profile-install:
-	@echo "Building the flake..."
+	@echo "🔨 Bygger flake..."
 	nix build $(FLAKE_PATH) --out-link $(RESULT_PATH)
-	@echo "Removing the existing profile..."
+	@echo "🧹 Tar bort gammal profil (om finns)..."
 	nix profile remove profile-env || true
-	@echo "Running garbage collection..."
+	@echo "🗑️  Rensar gammal garbage..."
 	nix-collect-garbage -d
-	@echo "Installing the profile..."
+	@echo "📦 Installerar ny profil..."
 	nix profile install $(RESULT_PATH)
+
+# === 🔄 Uppdatera flake + installera senaste paket ===
+.PHONY: update
+update:
+	@echo "🔄 Kör nix flake update..."
+	nix flake update --flake $(FLAKE_PATH)
+	@echo "📥 Installerar uppdaterad profil..."
+	$(MAKE) nix-profile-install

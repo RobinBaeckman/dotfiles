@@ -15,6 +15,7 @@
         (pkgs.python311.withPackages(ps: with ps; [
           mido
           python-rtmidi
+          pip
         ]))
         pkgs.bat
         pkgs.coreutils
@@ -49,6 +50,7 @@
         pkgs.zsh-syntax-highlighting
         pkgs.nix-zsh-completions
         pkgs.atuin
+        pkgs.portmidi
       ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" "/lib" ];
       extraOutputsToInstall = [ "man" "doc" ];

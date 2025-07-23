@@ -113,7 +113,6 @@ vim.keymap.set('n', '<leader>fi', builtin.builtin, { desc = 'Telescope: Find Bui
 vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope: Find Symbols' })
 vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Telescope: Find Word under Cursor' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope: Live Grep' })
-vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope: Find Diagnostics' })
 vim.keymap.set('n', '<leader>fp', builtin.resume, { desc = 'Telescope: Resume Last Search' })
 vim.keymap.set('n', '<leader>fr', builtin.registers, { desc = 'Telescope: Find Registers' })
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope: Find Old Files' })

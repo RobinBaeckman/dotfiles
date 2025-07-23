@@ -1,4 +1,8 @@
 # Initialize Nix environment
+# 🧪 Ladda Nix-miljön (multi-user macOS installation)
+if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
 export NIX_PROFILE="/Users/robin/.nix-profile"
 export PATH="$NIX_PROFILE/bin:$PATH"
 
@@ -10,11 +14,18 @@ if [ -n "${commands[fzf-share]}" ]; then
   source "$(fzf-share)/completion.zsh"
 fi
 
-# Initialize zoxide
-eval "$(zoxide init zsh)"
+# Initialize zoxide (if installed)
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+  # Disable cd only if zoxide exists
+  alias cd="echo 'Use z or alt-c for navigation instead of cd.'"
+  alias cd..="echo 'Use z or alt-c for navigation instead of cd ...'"
+fi
 
-# Initialize Atuin
-eval "$(atuin init zsh)"
+# Initialize Atuin (if installed)
+if command -v atuin &> /dev/null; then
+  eval "$(atuin init zsh)"
+fi
 
 # Start the SSH agent if not already running
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
@@ -38,12 +49,10 @@ fi
 NIX_COMPLETIONS="$HOME/.nix-profile/share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh"
 NIX_COMPLETION_FUNC="/nix/var/nix/profiles/default/share/zsh/site-functions/_nix"
 
-# Source the Nix completions plugin if it exists
 if [ -f "$NIX_COMPLETIONS" ]; then
   source "$NIX_COMPLETIONS"
 fi
 
-# Update fpath to include Nix completions
 fpath=("/nix/var/nix/profiles/default/share/zsh/site-functions" $fpath)
 
 # Load completions
@@ -61,6 +70,7 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+bindkey '^Y' autosuggest-accept
 
 # Docker/Docker-compose
 alias dcu='docker-compose up -d --build'
@@ -75,23 +85,28 @@ alias gd='git diff'
 # Custom Aliases
 alias todo='vim ~/todo.txt'
 alias fuck="mv ~/Library/Preferences/com.apple.symbolichotkeys.plist ~/Desktop/com.apple.symbolichotkeys.plist"
-
-# Config entries
-alias tc='vim ~/.config/tmux/tmux.conf'
-alias rtc='tmux source ~/.config/tmux/tmux.conf'
-alias zc="vim ~/.config/zsh/.zshrc"
-alias rzc="source ~/.config/zsh/.zshrc"
+alias cl="clear && ls -l"
 
 # Remaps
 alias vim='nvim'
 alias ta='tmux attach'
 alias td='tmux detach'
-alias cd="echo 'Use z or alt-c for navigation instead of cd.'"
-alias cd..="echo 'Use z or alt-c for navigation instead of cd ...'"
 
 # Terminal Commands
 alias l='eza -l --icons --git -a'
 alias lt='eza --tree --level=2 -l --icons --git'
+
+# Configs 
+alias df='z ~/dotfiles'
+alias nv='z /Users/robin/dotfiles/nvim/lua'
+alias ws='z /Users/robin/workspace/private'
+
+alias zcc="vim ~/dotfiles/zsh/.zshrc"
+alias rzcc="source ~/dotfiles/zsh/.zshrc && echo '🔁 ZSH config reloaded!'"
+alias tcc="vim ~/dotfiles/tmux/tmux.conf"
+alias rtcc="tmux source ~/dotfiles/tmux/tmux.conf && echo '🔁 TMUX config reloaded!'"
+alias scc="vim ~/dotfiles/starship/starship.toml"
+alias pcc="vim ~/dotfiles/nix-flakes/profile/flake.nix"
 
 # Export configurations
 export SSH_CONFIG=~/.config/ssh/config
