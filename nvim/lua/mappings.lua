@@ -231,11 +231,6 @@ vim.keymap.set("n", "<Leader>bl", ":lua _G.list_bookmarks()<CR>",
    { noremap = true, silent = true, desc = "Bookmarks: Open bookmark picker" })
 
 
--- Key Mapping for Theme Switching
-vim.keymap.set('n', '<leader>th', function()
-   require('utils.telescope_themes').themes()
-end, { desc = 'Switch Theme' })
-
 -- Define a variable to store the window layout
 local window_layout = nil
 

@@ -100,6 +100,7 @@ alias lt='eza --tree --level=2 -l --icons --git'
 alias df='z ~/dotfiles'
 alias nv='z /Users/robin/dotfiles/nvim/lua'
 alias ws='z /Users/robin/workspace/private'
+alias db='z /Users/robin/workspace/private/devbox'
 
 alias zcc="vim ~/dotfiles/zsh/.zshrc"
 alias rzcc="source ~/dotfiles/zsh/.zshrc && echo '🔁 ZSH config reloaded!'"

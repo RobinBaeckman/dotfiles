@@ -1,8 +1,11 @@
 return {
    'nvim-treesitter/nvim-treesitter',
    build = ':TSUpdate',
+   dependencies = {
+      "nvim-treesitter/playground",
+   },
    opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'yaml' },
+      ensure_installed = { 'go', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'yaml' },
       auto_install = true,
       highlight = {
          enable = true,

@@ -105,7 +105,6 @@ function SearchInDotfiles()
 end
 
 -- Telescope key mappings
-vim.api.nvim_set_keymap('n', '<leader>gd', ':lua SearchInDotfiles()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope: Find Help Tags' })
 vim.keymap.set('n', '<leader>fk', find_keymaps, { desc = 'Telescope: Find Keymaps' })
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope: Find Files' })

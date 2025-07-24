@@ -1,66 +1,67 @@
-# =============================================================================
-# 💡 Makefile – Enkelt gränssnitt för att hantera dotfiles och Nix-miljö
+# ==============================================================================
+# 🧰 Makefile – Hantera dina verktyg & inställningar
 #
-# Detta är din kommandopanel – kör "make help" för att se vad du kan göra.
+# 📦 Du definierar vilka appar/verktyg som ska finnas i flake.nix
 #
-# 🟢 Vanlig uppdatering efter lång paus:
-#    make update
-#
-# 🛠️ Ny dator / fresh setup:
-#    make full-setup
-# =============================================================================
+# Vanliga scenarion:
+#   make init            – Första setup på ny dator
+#   make apply-changes   – När du ändrat vilka appar som ska ingå
+#   make upgrade         – Uppdatera alla appar till senaste versioner
+#   make refresh         – Installera om och återlänka allt
+#   make reset           – Rensa bort ALLT (verktyg och länkar)
+# ==============================================================================
 
-# === 🔧 Variabler ===
 FLAKE_PATH := ./nix-flakes/profile
 RESULT_PATH := $(FLAKE_PATH)/result
+TARGET := ~/.config
 STOW := stow
-STOWRC := .stowrc
 
-# === 🧭 Standardkommandot ===
 .DEFAULT_GOAL := help
 
-# === 📋 Hjälpmeny ===
 .PHONY: help
 help:
-	@echo "📦 Available targets:"
-	@echo "  make full-setup           - 🛠️ Första setup på ny dator (Nix + dotfiles)"
-	@echo "  make update               - 🔄 Uppdatera alla verktyg (flake update + install)"
-	@echo "  make link-dotfiles        - 🔗 Symlänka dotfiles till ~/.config"
-	@echo "  make unlink-dotfiles      - ❌ Ta bort symlänkar"
-	@echo "  make nix-profile-install  - 📥 Bygg och installera Nix-paket från flake"
+	@echo ""
+	@echo "🧰 Tillgängliga kommandon:"
+	@echo ""
+	@echo "  make init            – 🔧 Sätt upp allt första gången (dotfiles + appar)"
+	@echo "  make apply-changes   – 🪄 När du lagt till / tagit bort appar i flake.nix"
+	@echo "  make upgrade         – 🔄 Hämta senaste versioner av alla appar"
+	@echo "  make refresh         – ♻️  Återställ allt (länkar + installation)"
+	@echo "  make reset           – 🧹 Rensa bort ALLT (länkar, appar och cache)"
+	@echo ""
 
-# === 🛠️ Full ny setup (för ny dator) ===
-.PHONY: full-setup
-full-setup: link-dotfiles nix-profile-install
+.PHONY: init
+init: link install
 
-# === 🔗 Symlänka dotfiles ===
-.PHONY: link-dotfiles
-link-dotfiles:
-	@echo "🔗 Symlänkar dotfiles till ~/.config ..."
-	$(STOW) -v --restow --target ~/.config .
-
-# === ❌ Ta bort symlänkar ===
-.PHONY: unlink-dotfiles
-unlink-dotfiles:
-	@echo "❌ Tar bort symlänkar från ~/.config ..."
-	$(STOW) -v --delete --target ~/.config .
-
-# === 📥 Bygg och installera Nix-profile från flake ===
-.PHONY: nix-profile-install
-nix-profile-install:
-	@echo "🔨 Bygger flake..."
+.PHONY: apply-changes
+apply-changes:
+	@echo "📦 Bygger ny uppsättning appar enligt flake.nix..."
 	nix build $(FLAKE_PATH) --out-link $(RESULT_PATH)
-	@echo "🧹 Tar bort gammal profil (om finns)..."
-	nix profile remove profile-env || true
-	@echo "🗑️  Rensar gammal garbage..."
-	nix-collect-garbage -d
-	@echo "📦 Installerar ny profil..."
+	@echo "📥 Installerar om allt från ändrad flake..."
 	nix profile install $(RESULT_PATH)
 
-# === 🔄 Uppdatera flake + installera senaste paket ===
-.PHONY: update
-update:
-	@echo "🔄 Kör nix flake update..."
+.PHONY: upgrade
+upgrade:
+	@echo "🔄 Uppdaterar till senaste versioner av verktyg..."
 	nix flake update --flake $(FLAKE_PATH)
-	@echo "📥 Installerar uppdaterad profil..."
-	$(MAKE) nix-profile-install
+	$(MAKE) apply-changes
+
+.PHONY: refresh
+refresh: unlink link apply-changes
+
+.PHONY: reset
+reset: unlink
+	@echo "🧹 Rensar installerade appar och gammal cache..."
+	nix profile remove profile-env || true
+	nix-collect-garbage -d
+	@rm -rf $(RESULT_PATH)
+
+.PHONY: link
+link:
+	@echo "🔗 Skapar symlänkar till ~/.config..."
+	$(STOW) -v --restow --target $(TARGET) .
+
+.PHONY: unlink
+unlink:
+	@echo "❌ Tar bort symlänkar från ~/.config..."
+	$(STOW) -v --delete --target $(TARGET) .

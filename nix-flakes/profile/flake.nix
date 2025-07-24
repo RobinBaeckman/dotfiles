@@ -27,10 +27,6 @@
         pkgs.git
         pkgs.gnupg
         pkgs.go
-        pkgs.go-task
-        pkgs.golangci-lint
-        pkgs.gopls
-        pkgs.govulncheck
         pkgs.graphviz
         pkgs.gnugrep
         pkgs.jq
