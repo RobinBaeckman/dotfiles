@@ -4,8 +4,10 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       { 'williamboman/mason.nvim',           config = true },
       { 'williamboman/mason-lspconfig.nvim', config = true },
+      { 'folke/neodev.nvim',                 opts = {} }, -- ✅ Add this
    },
    config = function()
+      require("neodev").setup({}) -- ✅ Must go before lua_ls.setup
       -- 🪧 Diagnostic icons and config
       vim.diagnostic.config({
          virtual_text = {
@@ -31,13 +33,20 @@ return {
          local opts = { noremap = true, silent = true, buffer = bufnr }
          local keymap = vim.keymap.set
 
-         keymap('n', 'gd', vim.lsp.buf.definition, opts)
-         keymap('n', 'K', vim.lsp.buf.hover, opts)
-         keymap('n', '<leader>rn', vim.lsp.buf.rename, opts)
-         keymap('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-         keymap('n', '[d', vim.diagnostic.goto_prev, opts)
-         keymap('n', ']d', vim.diagnostic.goto_next, opts)
-         vim.keymap.set('n', '<leader>e', function()
+         keymap('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = 'LSP: Go to definition' }))
+         keymap('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = 'LSP: Go to declaration' }))
+         keymap('n', 'gi', vim.lsp.buf.implementation,
+            vim.tbl_extend("force", opts, { desc = 'LSP: Go to implementation' }))
+         keymap('n', 'gr', vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = 'LSP: Show references' }))
+         keymap('n', 'K', vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = 'LSP: Hover documentation' }))
+         keymap('n', '<leader>rn', vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = 'LSP: Rename symbol' }))
+         keymap('n', '<leader>ca', vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = 'LSP: Code action' }))
+         keymap('n', '[d', vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = 'LSP: Previous diagnostic' }))
+         keymap('n', ']d', vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = 'LSP: Next diagnostic' }))
+         keymap('n', '<leader>q', vim.diagnostic.setqflist,
+            vim.tbl_extend("force", opts, { desc = 'LSP: Set diagnostics to quickfix list' }))
+
+         keymap('n', '<leader>e', function()
             local wininfo = vim.fn.getwininfo()
             for _, win in ipairs(wininfo) do
                if win.loclist == 1 then
@@ -46,7 +55,7 @@ return {
                end
             end
             vim.diagnostic.setloclist({ open = true })
-         end, { noremap = true, silent = true, desc = "Toggle diagnostic location list" })
+         end, vim.tbl_extend("force", opts, { desc = "LSP: Toggle diagnostic location list" }))
 
          if client.server_capabilities.documentFormattingProvider then
             vim.api.nvim_create_autocmd("BufWritePre", {

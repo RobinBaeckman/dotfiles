@@ -105,6 +105,16 @@ function SearchInDotfiles()
 end
 
 -- Telescope key mappings
+vim.keymap.set('n', '<leader>ld', builtin.diagnostics, { desc = 'Telescope: Show Diagnostics (All)' })
+vim.keymap.set('n', '<leader>lm', function()
+   local msgs = vim.api.nvim_exec("messages", true)
+   vim.cmd("new") -- horisontell split
+   vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(msgs, "\n"))
+   vim.bo.buftype = "nofile"
+   vim.bo.bufhidden = "wipe"
+   vim.bo.swapfile = false
+   vim.bo.filetype = "log"
+end, { desc = 'Debug: Show :messages in buffer' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope: Find Help Tags' })
 vim.keymap.set('n', '<leader>fk', find_keymaps, { desc = 'Telescope: Find Keymaps' })
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope: Find Files' })

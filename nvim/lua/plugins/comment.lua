@@ -8,6 +8,8 @@ return {
       },
    },
    config = function()
+      local comment_api = require("Comment.api")
+
       require('Comment').setup({
          mappings = {
             basic = false,
@@ -16,11 +18,18 @@ return {
          },
       })
 
-      -- Custom key mappings for toggling comments
-      vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>',
-         { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('x', '<leader>cc',
-         '<esc><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>',
-         { noremap = true, silent = true })
+      -- 🗒️ Comment keymaps (with desc for Telescope keymap list)
+      vim.keymap.set('n', '<leader>cc', comment_api.toggle.linewise.current,
+         { noremap = true, silent = true, desc = "Comment: Toggle current line" })
+
+      vim.keymap.set('x', '<leader>cc', function()
+         -- Escape visual mode and toggle selected lines
+         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "nx", false)
+         comment_api.toggle.linewise(vim.fn.visualmode())
+      end, {
+         noremap = true,
+         silent = true,
+         desc = "Comment: Toggle selected lines",
+      })
    end,
 }

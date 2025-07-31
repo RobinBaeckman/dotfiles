@@ -3,7 +3,6 @@ return {
    version = "*",
    config = function()
       require("toggleterm").setup {
-         -- Default configuration options
          size = 20,
          open_mapping = [[<c-\>]],
          hide_numbers = true,
@@ -27,40 +26,57 @@ return {
          },
       }
 
-      -- Function to run the current Go file in a toggle terminal
+      local Terminal = require('toggleterm.terminal').Terminal
+
       local function run_go_file()
          local file = vim.fn.expand('%')
-         require('toggleterm.terminal').Terminal:new({
+         Terminal:new({
             cmd = "go run " .. file .. " ; read",
             hidden = true,
             direction = "horizontal",
          }):toggle()
       end
 
-      -- Function to run Go tests in a toggle terminal
       local function run_go_tests()
-         require('toggleterm.terminal').Terminal:new({
+         Terminal:new({
             cmd = "go test ./... ; read",
             hidden = true,
             direction = "horizontal",
          }):toggle()
       end
 
-      -- Create user commands to run the Go file and Go tests
       vim.api.nvim_create_user_command('RunGoFile', run_go_file, {})
       vim.api.nvim_create_user_command('RunGoTests', run_go_tests, {})
 
-      -- Keybinding to run the current Go file
-      vim.api.nvim_set_keymap('n', '<leader>r', ':RunGoFile<CR>', { noremap = true, silent = true })
+      -- Keybindings with descriptions
+      vim.keymap.set('n', '<leader>tt', ':ToggleTerm direction=horizontal<CR>', {
+         noremap = true,
+         silent = true,
+         desc = "Terminal: Toggle terminal"
+      })
 
-      -- Keybinding to run Go tests
-      vim.api.nvim_set_keymap('n', '<leader>t', ':RunGoTests<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<leader>r', ':RunGoFile<CR>', {
+         noremap = true,
+         silent = true,
+         desc = "Go: Run current file in terminal"
+      })
 
-      -- Keybinding to toggle an empty terminal for input
-      vim.api.nvim_set_keymap('n', '<leader>tt', ':ToggleTerm direction=horizontal<CR>',
-         { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('t', '<C-k>', [[<C-\><C-n>:TmuxNavigateUp<CR>]], { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('t', '<C-l>', [[<C-\><C-n>:TmuxNavigateRight<CR>]], { noremap = true, silent = true })
+      vim.keymap.set('n', '<leader>t', ':RunGoTests<CR>', {
+         noremap = true,
+         silent = true,
+         desc = "Go: Run all tests in terminal"
+      })
+
+      vim.keymap.set('t', '<C-k>', [[<C-\><C-n>:TmuxNavigateUp<CR>]], {
+         noremap = true,
+         silent = true,
+         desc = "Tmux: Navigate Up from terminal"
+      })
+
+      vim.keymap.set('t', '<C-l>', [[<C-\><C-n>:TmuxNavigateRight<CR>]], {
+         noremap = true,
+         silent = true,
+         desc = "Tmux: Navigate Right from terminal"
+      })
    end
 }
-

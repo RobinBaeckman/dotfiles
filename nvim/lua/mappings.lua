@@ -103,12 +103,12 @@ local function echo_in_normal_mode(message)
 end
 
 -- Disable hjkl to encourage efficient movements
-vim.keymap.set('n', 'h', function() echo_in_normal_mode("Use more efficient movements!") end,
-   { noremap = true, silent = true, desc = "Disable: Left movement" })
-vim.keymap.set('n', 'j', handle_jk_with_count('j'), { noremap = true, silent = true, desc = "Disable: Down movement" })
-vim.keymap.set('n', 'k', handle_jk_with_count('k'), { noremap = true, silent = true, desc = "Disable: Up movement" })
-vim.keymap.set('n', 'l', function() echo_in_normal_mode("Use more efficient movements!") end,
-   { noremap = true, silent = true, desc = "Disable: Right movement" })
+-- vim.keymap.set('n', 'h', function() echo_in_normal_mode("Use more efficient movements!") end,
+--    { noremap = true, silent = true, desc = "Disable: Left movement" })
+-- vim.keymap.set('n', 'j', handle_jk_with_count('j'), { noremap = true, silent = true, desc = "Disable: Down movement" })
+-- vim.keymap.set('n', 'k', handle_jk_with_count('k'), { noremap = true, silent = true, desc = "Disable: Up movement" })
+-- vim.keymap.set('n', 'l', function() echo_in_normal_mode("Use more efficient movements!") end,
+--    { noremap = true, silent = true, desc = "Disable: Right movement" })
 
 -- ======================================
 -- Disable Existing Mappings
@@ -129,8 +129,8 @@ vim.keymap.set('n', 'd', '"ad', { noremap = true, silent = true, desc = "Registe
 vim.keymap.set('v', 'd', '"ad', { noremap = true, silent = true, desc = "Register: Delete to register a" })
 vim.keymap.set('n', 'D', '"aD', { noremap = true, silent = true, desc = "Register: Delete line to register a" })
 vim.keymap.set('v', 'D', '"aD', { noremap = true, silent = true, desc = "Register: Delete line to register a" })
-vim.keymap.set('n', 'c', '"ac', { noremap = true, silent = true, desc = "Register: Change to register a" })
-vim.keymap.set('v', 'c', '"ac', { noremap = true, silent = true, desc = "Register: Change to register a" })
+-- vim.keymap.set('n', 'c', '"ac', { noremap = true, silent = true, desc = "Register: Change to register a" })
+-- vim.keymap.set('v', 'c', '"ac', { noremap = true, silent = true, desc = "Register: Change to register a" })
 vim.keymap.set('n', 'C', '"aC', { noremap = true, silent = true, desc = "Register: Change line to register a" })
 vim.keymap.set('v', 'C', '"aC', { noremap = true, silent = true, desc = "Register: Change line to register a" })
 vim.keymap.set('n', 'x', '"ax', { noremap = true, silent = true, desc = "Register: Cut to register a" })

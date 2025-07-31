@@ -3,7 +3,10 @@ return {
    opts = {},
    dependencies = { "nvim-tree/nvim-web-devicons" },
    config = function()
-      require("oil").setup({
+      local oil = require("oil")
+      local actions = require("oil.actions")
+
+      oil.setup({
          default_file_explorer = true,
          delete_to_trash = true,
          skip_confirm_for_simple_edits = true,
@@ -29,7 +32,17 @@ return {
          },
       })
 
-      -- Ensure the keymap is set correctly
-      vim.keymap.set("n", "-", ":Oil<CR>", { noremap = true, silent = true, desc = "Oil: Open parent directory" })
+      -- 📁 Oil keymaps (with desc for Telescope keymap list)
+      vim.keymap.set("n", "<leader>cd", actions.cd.callback, {
+         noremap = true,
+         silent = true,
+         desc = "Oil: Set cwd to current directory",
+      })
+
+      vim.keymap.set("n", "-", oil.open_float, {
+         noremap = true,
+         silent = true,
+         desc = "Oil: Open floating directory view",
+      })
    end,
 }
