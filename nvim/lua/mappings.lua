@@ -4,6 +4,9 @@ local function exec_current_line()
    vim.cmd("lua " .. line)
 end
 
+-- Switch to the previously opened file with <leader><leader>
+vim.keymap.set('n', '<leader><leader>', '<cmd>e#<CR>', { desc = 'Switch to previous file' })
+
 -- Function to execute the visual selection in Lua
 local function exec_visual_selection()
    local _, start_line, start_col, _ = unpack(vim.fn.getpos("'<"))
@@ -253,3 +256,11 @@ end
 vim.api.nvim_set_keymap('n', '<leader>z', ':lua toggle_fullscreen()<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>b', ':b#<CR>', { noremap = true, silent = true })
+
+-- Go to beginning of line (replaces ^)
+vim.keymap.set('n', 'B', '^', { noremap = true, silent = true, desc = "Motion: Beginning of line" })
+vim.keymap.set('v', 'B', '^', { noremap = true, silent = true })
+
+-- Go to end of line (replaces $)
+vim.keymap.set('n', 'E', 'g_', { noremap = true, silent = true, desc = "Motion: End of line (non-whitespace)" })
+vim.keymap.set('v', 'E', 'g_', { noremap = true, silent = true })

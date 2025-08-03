@@ -132,9 +132,6 @@ vim.keymap.set('n', '<leader>/', function()
       previewer = false,
    })
 end, { desc = 'Telescope: Fuzzily search in current buffer' })
-vim.keymap.set('n', '<leader><leader>', function()
-   builtin.find_files { cwd = vim.fn.stdpath 'config' }
-end, { desc = 'Telescope: Find Neovim Config Files' })
 vim.keymap.set('n', '<leader>fd', function()
    require('telescope.builtin').find_files {
       cwd = vim.fn.expand('~/dotfiles'),

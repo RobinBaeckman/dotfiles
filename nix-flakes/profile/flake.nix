@@ -47,6 +47,9 @@
         pkgs.nix-zsh-completions
         pkgs.atuin
         pkgs.portmidi
+        pkgs.httpie
+        pkgs.colima
+        pkgs.golangci-lint
       ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" "/lib" ];
       extraOutputsToInstall = [ "man" "doc" ];

@@ -38,6 +38,7 @@ apply-changes:
 	@echo "📦 Bygger ny uppsättning appar enligt flake.nix..."
 	nix build $(FLAKE_PATH) --out-link $(RESULT_PATH)
 	@echo "📥 Installerar om allt från ändrad flake..."
+	nix profile remove profile-env || true
 	nix profile install $(RESULT_PATH)
 
 .PHONY: upgrade

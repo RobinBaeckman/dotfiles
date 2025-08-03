@@ -6,6 +6,10 @@ fi
 export NIX_PROFILE="/Users/robin/.nix-profile"
 export PATH="$NIX_PROFILE/bin:$PATH"
 
+export PATH="$HOME/go/bin:$PATH"
+
+export DATABASE_URL="postgres://gohotels:secret@localhost:5432/gohotels?sslmode=disable"
+
 export TERM=xterm-256color
 
 # Load fzf key bindings and completion
@@ -96,12 +100,14 @@ alias td='tmux detach'
 alias l='eza -l --icons --git -a'
 alias lt='eza --tree --level=2 -l --icons --git'
 
-# Configs 
+# Goto 
 alias df='z ~/dotfiles'
 alias nv='z /Users/robin/dotfiles/nvim/lua'
 alias ws='z /Users/robin/workspace/private'
 alias db='z /Users/robin/workspace/private/devbox'
+alias jj='z /Users/robin/workspace/private/go-hotels'
 
+# Configs
 alias zcc="vim ~/dotfiles/zsh/.zshrc"
 alias rzcc="source ~/dotfiles/zsh/.zshrc && echo '🔁 ZSH config reloaded!'"
 alias tcc="vim ~/dotfiles/tmux/tmux.conf"
