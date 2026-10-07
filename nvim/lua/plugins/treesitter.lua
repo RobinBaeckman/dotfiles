@@ -1,10 +1,11 @@
 return {
    {
       "nvim-treesitter/nvim-treesitter",
+      -- main is a rewrite without the module API that the opts below use.
+      branch = "master",
       build = ":TSUpdate",
       dependencies = {
-         "nvim-treesitter/playground",
-         "nvim-treesitter/nvim-treesitter-textobjects",
+         { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
       },
       opts = {
          ensure_installed = {
@@ -63,7 +64,8 @@ return {
          },
       },
       config = function(_, opts)
-         require("nvim-treesitter.install").prefer_git = true
+         -- curl tarballs over https: git here rewrites GitHub to SSH, which this VM has no key for.
+         require("nvim-treesitter.install").prefer_git = false
          require("nvim-treesitter.configs").setup(opts)
       end,
    },
